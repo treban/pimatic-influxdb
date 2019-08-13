@@ -1,0 +1,13 @@
+language: node_js
+dist: xenial
+matrix:
+  include:
+    - node_js: "4"
+    - node_js: "8"
+    - node_js: "10"
+before_install:
+  - chmod +x ./test/travis-before-install
+  - ./test/travis-before-install
+before_script:
+  - chmod +x ./test/travis-before-script
+  - ./test/travis-before-script

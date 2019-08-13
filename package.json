@@ -1,0 +1,63 @@
+{
+  "name": "pimatic-influxdb",
+  "description": "Pimatic plugin for influxdb",
+  "author": {
+    "name": "Kosta",
+    "email": "trebankosta@gmail.com"
+  },
+  "main": "influxdb",
+  "files": [
+    "influxdb.coffee",
+    "influx-connector.coffee",
+    "README.md",
+    "LICENSE",
+    "influxdb-config-schema.coffee",
+    "device-config-schema.coffee"
+  ],
+  "version": "0.1.0",
+  "homepage": "https://github.com/treban/pimatic-influxdb",
+  "configSchema": "influxdb-config-schema.coffee",
+  "dependencies": {
+    "bluebird": "^3.5.5",
+    "request-promise": "^4.2.4",
+    "influxdb-nodejs": "3.1.0"
+  },
+  "keywords": [
+    "pimatic",
+    "influxdb"
+  ],
+  "peerDependencies": {
+    "pimatic": ">=0.9.0"
+  },
+  "devDependencies": {
+    "blanket": "^1.2.3",
+    "bluebird": "^3.4.7",
+    "coffee-script": "^1.12.3",
+    "cassert": "^0.1.2",
+    "coffee-errors": "^0.8.6",
+    "decl-api": "0.0.22",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-coffeelint": "0.0.16",
+    "grunt-mocha-test": "^0.13.2",
+    "mocha": "^3.2.0",
+    "sqlite3": "^3.1.8",
+    "pimatic": ">=0.9.0"
+  },
+  "engines": {
+    "node": ">0.8.x",
+    "npm": ">1.1.x"
+  },
+  "bugs": {
+    "url": "https://github.com/treban/pimatic-influxdb/issues"
+  },
+  "maintainers": [
+    {
+      "name": "treban",
+      "email": "trebankosta@gmail.com"
+    }
+  ],
+  "scripts": {
+    "test": "grunt test"
+  }
+}
