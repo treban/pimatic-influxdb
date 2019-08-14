@@ -19,7 +19,7 @@
   "configSchema": "influxdb-config-schema.coffee",
   "dependencies": {
     "bluebird": "^3.5.5",
-    "influxdb-nodejs": "3.1.0"
+    "influx": "5.4.0"
   },
   "keywords": [
     "pimatic",
