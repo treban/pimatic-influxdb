@@ -55,9 +55,9 @@ module.exports = (env) ->
           if @ready
             for dev of @dev_map
               for attr of @dev_map[dev].device.attributes
-                if @dev_map[dev].device.attributes[attr].type is "number" and
-                  @dev_map[dev].device.attributes[attr].type is not null
-                    if !isNaN(@dev_map[dev].device._attributesMeta[attr].value)
+                if @dev_map[dev].device.attributes[attr].type is "number"
+                    if @dev_map[dev].device._attributesMeta[attr].value?
+                  #    env.logger.debug "send"
                       field = {}
                       field[attr]=@dev_map[dev].device._attributesMeta[attr].value
                       @Connector.writeMeasurement({device: @dev_map[dev].device.id},field)
