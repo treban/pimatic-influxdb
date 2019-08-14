@@ -27,15 +27,6 @@ module.exports = (env) ->
             configDef: deviceConfigDef[DeviceClass.name],
             createCallback: (deviceConfig, lastState) => new DeviceClass(deviceConfig, lastState, @framework, this)
           })
-#      @framework.on "after init", =>
-#        mobileFrontend = @framework.pluginManager.getPlugin 'mobile-frontend'
-#        if mobileFrontend?
-#          mobileFrontend.registerAssetFile 'js',   "pimatic-influxdb/app/influxdb-page.coffee"
-#          mobileFrontend.registerAssetFile 'html', "pimatic-influxdb/app/influxdb-template.jade"
-#          mobileFrontend.registerAssetFile 'css',  "pimatic-influxdb/app/influxdb.css"
-#      @framework.on('destroy', (context) ->
-#        env.logger.info("Plugin finish...")
-#      )
 
       @framework.deviceManager.deviceConfigExtensions.push(new InfluxConfigExtension())
 
@@ -49,11 +40,10 @@ module.exports = (env) ->
               do (attr) =>
                 device.on attr, (val) =>
                   if val?
-                    env.logger.debug device.name + " write " + val
+                    env.logger.debug device.name + " write " + attr + " with "+ val
                     field = {}
                     field[attr]=val
                   #  if @ready
-                    env.logger.debug "writing"
                     @Connector.writeMeasurement({device: device.id},field).then( (result) =>
                       env.logger.debug "ok"
                     ).catch( (err) =>
@@ -61,21 +51,19 @@ module.exports = (env) ->
                     )
 
       if @config.interval > 0
-        reconnect = setInterval =>
+        @reconnect = setInterval =>
           if @ready
             for dev of @dev_map
               for attr of @dev_map[dev].device.attributes
-                if @dev_map[dev].device.attributes[attr].type is "number"
-                  env.logger.debug @dev_map[dev].device.name + " write " + @dev_map[dev].device._attributesMeta[attr].value
-                  if !isNaN(@dev_map[dev].device._attributesMeta[attr].value)
-                    field = {}
-                    field[attr]=@dev_map[dev].device._attributesMeta[attr].value
-                    env.logger.debug "writing"
-                    @Connector.writeMeasurement({device: @dev_map[dev].device.id},field).then( (result) =>
-                      env.logger.debug "ok"
-                    ).catch( (err) =>
-                      env.logger.error err.message
-                    )
+                if @dev_map[dev].device.attributes[attr].type is "number" and
+                  @dev_map[dev].device.attributes[attr].type is not null
+                    if !isNaN(@dev_map[dev].device._attributesMeta[attr].value)
+                      field = {}
+                      field[attr]=@dev_map[dev].device._attributesMeta[attr].value
+                      @Connector.writeMeasurement({device: @dev_map[dev].device.id},field)
+                      .catch( (err) =>
+                        env.logger.error err.message
+                      )
         ,@config.interval*1000
 
       @framework.deviceManager.on 'discover', (eventData) =>
@@ -145,12 +133,12 @@ module.exports = (env) ->
           )
           @_createGetter(name, getValue)
 
-      reconnect = setInterval =>
+      @reconnect = setInterval =>
         if @influx.ready
           for name of @vars
             do (name) =>
               @influx.Connector.query(@vars[name].query, @vars[name].database).then( (result) =>
-                env.logger.debug name + " - " + result[0].last
+                env.logger.debug "Get value " + name + " - " + result[0].last
                 @emit name, result[0].last
               ).catch( (err)=>
                 env.logger.error err.message
@@ -160,6 +148,7 @@ module.exports = (env) ->
       super()
 
     destroy: ->
+      clearTimeout(@reconnect) if @reconnect?
       super()
 
   class InfluxConfigExtension

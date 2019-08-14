@@ -30,7 +30,7 @@ module.exports = (env) ->
           ).catch( (err) =>
             env.logger.error err.message
           )
-      ,5000
+      ,30000
 
     connect: () =>
       env.logger.debug "reconnecting to influxdb"
@@ -62,7 +62,7 @@ module.exports = (env) ->
       return @influxcon.query(query,{database: db})
 
     writeMeasurement: (tags,fields) =>
-      return @influxcon.writeMeasurement('attr', [
+      return @influxcon.writeMeasurement('attribute', [
         {
           tags: tags,
           fields: fields
