@@ -14,7 +14,7 @@ module.exports = {
     port:
       description: "port from the influxdb rest api"
       type: "string"
-      default: 8086
+      default: "8086"
     interval:
       description: "interval to send values to influx periodically, 0 = turn OFF "
       type:"number"

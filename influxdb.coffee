@@ -56,14 +56,14 @@ module.exports = (env) ->
             for dev of @dev_map
               for attr of @dev_map[dev].device.attributes
                 if @dev_map[dev].device.attributes[attr].type is "number"
-                    if @dev_map[dev].device._attributesMeta[attr].value?
-                  #    env.logger.debug "send"
-                      field = {}
-                      field[attr]=@dev_map[dev].device._attributesMeta[attr].value
-                      @Connector.writeMeasurement({device: @dev_map[dev].device.id},field)
-                      .catch( (err) =>
-                        env.logger.error err.message
-                      )
+                  if @dev_map[dev].device._attributesMeta[attr].value?
+                #    env.logger.debug "send"
+                    field = {}
+                    field[attr]=@dev_map[dev].device._attributesMeta[attr].value
+                    @Connector.writeMeasurement({device: @dev_map[dev].device.id},field)
+                    .catch( (err) =>
+                      env.logger.error err.message
+                    )
         ,@config.interval*1000
 
       @framework.deviceManager.on 'discover', (eventData) =>

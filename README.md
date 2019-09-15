@@ -1,9 +1,9 @@
-pimatic-manager
+pimatic-influxdb
 =======================
 
 [![build status](https://img.shields.io/travis/treban/pimatic-influxdb.svg?branch=master?style=flat-square)](https://travis-ci.org/treban/pimatic-influxdb)
 [![version](https://img.shields.io/npm/v/pimatic-influxdb.svg?branch=master?style=flat-square)](https://www.npmjs.com/package/pimatic-influxdb)
-[![downloads](https://img.shields.io/npm/v/pimatic-influxdb.svg?branch=master?style=flat-square)](https://www.npmjs.com/package/pimatic-influxdb)
+[![downloads](https://img.shields.io/npm/dm/pimatic-influxdb.svg?branch=master?style=flat-square)](https://www.npmjs.com/package/pimatic-influxdb)
 [![license](https://img.shields.io/github/license/treban/pimatic-influxdb.svg)](https://github.com/treban/pimatic-influxdb)
 
 This plugin provides a influx db interface for [pimatic](https://pimatic.org/).
